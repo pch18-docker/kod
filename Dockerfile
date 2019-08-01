@@ -21,5 +21,5 @@ RUN rm -rf /var/www/html /data \
   && mv /var/www/html/data /data 
 
 EXPOSE 80
-
-CMD [ "php", "-S", "0.0.0.0:80", "-t", "/var/www/html" ]
+VOLUME ["/data "]
+CMD ["php", "-S", "0.0.0.0:80", "-t", "/var/www/html"]
