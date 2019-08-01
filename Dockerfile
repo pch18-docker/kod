@@ -21,6 +21,6 @@ RUN rm -rf /var/www/html /data \
   && echo "<?php define('DATA_PATH','/data/');" > /var/www/html/config/define.php \
   && chmod -R 777 /var/www/html /entrypoint.sh
   
-
+VOLUME /var/www/html
 EXPOSE 80
 CMD /entrypoint.sh
