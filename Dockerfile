@@ -6,7 +6,7 @@ RUN apk add --no-cache --update \
         freetype libpng libjpeg-turbo \
         freetype-dev libpng-dev libjpeg-turbo-dev \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install -j "$(getconf _NPROCESSORS_ONLN)" gd \
+  && docker-php-ext-install -j "$(getconf _NPROCESSORS_ONLN)" gd exif\
   && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
 
 #安装主程序
