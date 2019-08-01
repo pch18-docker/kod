@@ -1,6 +1,8 @@
 FROM php:7-alpine
 MAINTAINER pch18.cn
 
+COPY entrypoint.sh /entrypoint.sh
+
 #安装GD库
 RUN apk add --no-cache --update \
         freetype libpng libjpeg-turbo \
@@ -17,9 +19,8 @@ RUN rm -rf /var/www/html /data \
   && rm -rf /tmp/* \
   && mv /var/www/KodExplorer-master /var/www/html \
   && echo "<?php define('DATA_PATH','/data/');" > /var/www/html/config/define.php \
-  && chmod -R 777 /var/www/html \
-  && mv /var/www/html/data /data 
+  && chmod -R 777 /var/www/html /entrypoint.sh
+  
 
 EXPOSE 80
-VOLUME ["/data"]
-CMD ["php", "-S", "0.0.0.0:80", "-t", "/var/www/html"]
+CMD /entrypoint.sh
