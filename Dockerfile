@@ -1,25 +1,23 @@
-FROM php:7-alpine
+FROM alpine
 MAINTAINER pch18.cn
 
 COPY entrypoint.sh /entrypoint.sh
+COPY nginx_default.conf /etc/nginx/conf.d/default.conf
 
-#安装GD库
-RUN apk add --no-cache --update \
-        freetype libpng libjpeg-turbo \
-        freetype-dev libpng-dev libjpeg-turbo-dev \
-  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install -j "$(getconf _NPROCESSORS_ONLN)" gd exif\
-  && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
-
+#安装PHP NGINX
+RUN apk add php php7-fpm nginx \
+    && php7-session php-iconv php-curl php-mbstring php-gd php-exif \
+    && mkdir /run/nginx \
+    && touch /run/nginx/nginx.pid
+    
+    
 #安装主程序
-RUN rm -rf /var/www/html /data \
-  && mkdir -p /var/www \
-  && wget -O /tmp/master.zip "https://github.com/pch18-fork/KodExplorer/archive/master.zip" \
-  && unzip /tmp/master.zip -d /var/www \ 
+RUN wget -O /tmp/master.zip "https://github.com/pch18-fork/KodExplorer/archive/master.zip" \
+  && unzip /tmp/master.zip -d /tmp \ 
+  && mv /tmp/KodExplorer-master /web \
   && rm -rf /tmp/* \
-  && mv /var/www/KodExplorer-master /var/www/html \
-  && echo "<?php define('DATA_PATH','/data/');" > /var/www/html/config/define.php \
-  && chmod -R 777 /var/www/html /entrypoint.sh
+  && echo "<?php define('DATA_PATH','/data/');" > /web/config/define.php \
+  && chmod -R 777 /web /entrypoint.sh
   
 VOLUME /var/www/html
 EXPOSE 80
