@@ -5,8 +5,8 @@ COPY entrypoint.sh /entrypoint.sh
 COPY nginx_default.conf /etc/nginx/conf.d/default.conf
 
 #安装PHP NGINX
-RUN apk add php php7-fpm nginx \
-    && php7-session php-iconv php-curl php-mbstring php-gd php-exif \
+RUN apk add php php-fpm nginx \
+    && php-session php-iconv php-curl php-mbstring php-gd php-exif \
     && mkdir /run/nginx \
     && touch /run/nginx/nginx.pid
     
