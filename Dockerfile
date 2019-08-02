@@ -19,6 +19,6 @@ RUN wget -O /tmp/master.zip "https://github.com/pch18-fork/KodExplorer/archive/m
   && echo "<?php define('DATA_PATH','/data/');" > /web/config/define.php \
   && chmod -R 777 /web /entrypoint.sh
   
-VOLUME /var/www/html
+VOLUME /web
 EXPOSE 80
 CMD /entrypoint.sh
