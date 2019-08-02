@@ -6,4 +6,5 @@ if [ "$dir" == "" ]; then
   cp -r /var/www/html/data/* /data/
 fi
 
-php -S 0.0.0.0:80 -t /var/www/html
+nginx
+php-fpm7 -F
